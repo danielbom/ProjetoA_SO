@@ -104,18 +104,20 @@ if __name__ == '__main__':
     print("Gerenciador de processos")
     print("Quantum p/ o algoritmo RR: " + str(q))
     print("Tempo de execução da I/O de sistema: " + str(tse) + "\n")
-    algoritmos = ("FIFO", "SFJ", "PRIO", "RR")
+    algoritmos = ("FIFO", "FIFO-P", "SFJ", "PRIO", "RR")
 
-    algo = 5
+    algo = 6
     if algo==1:
         exe_escalonamento(gp, "FIFO", False, False)
     elif algo==2:
-        exe_escalonamento(gp, "SJF", False, False)
+        exe_escalonamento(gp, "FIFO-P", False, False)
     elif algo==3:
-        exe_escalonamento(gp, "PRIO", False, False)
+        exe_escalonamento(gp, "SJF", False, False)
     elif algo==4:
+        exe_escalonamento(gp, "PRIO", False, False)
+    elif algo==5:
         exe_escalonamento(gp, "RR", False, False)
     else:
         for a in algoritmos:
-            exe_escalonamento(gp, a, False, False)
+            exe_escalonamento(gp, a, True, True)
             print()
