@@ -10,6 +10,7 @@ class gerenciador_de_processos(object):
         self.lista_de_sistema   = []
         self.processos          = []
         self.ids_exe            = []
+        self.tam_max_list_esp   = 0
 
     def __str__(self):
         string = ""
@@ -31,6 +32,7 @@ class gerenciador_de_processos(object):
         exe                   = None
         time                  = 0
         count_quantum         = 0
+        self.tam_max_list_esp = 0
         self.lista_de_sistema = []
         
         while True:
@@ -38,6 +40,8 @@ class gerenciador_de_processos(object):
             for i in process:
                 if i.cheg == time:
                     lista_de_espera.append(i)
+            if len(lista_de_espera) > self.tam_max_list_esp:
+                self.tam_max_list_esp = len(lista_de_espera)
             if sort == "SJF" :
                 lista_de_espera.sort(key=operator.attrgetter("rest"))
             elif sort == "PRIO":
@@ -68,7 +72,7 @@ class gerenciador_de_processos(object):
                 sistema.cheg = time
                 sistema.pc   = 0
                 self.lista_de_sistema.append(sistema)
-                
+
                 lista_de_espera.insert(0, sistema)
 
                 sys_cheg.append(time)
@@ -99,7 +103,7 @@ class gerenciador_de_processos(object):
         self.processos.append(sistema)
         self.ids_exe = lista_ids_exe
 
-    def TME(self):
+    def TTE(self):
         if len(self.ids_exe):
             soma = 0
             for p in self.processos:
@@ -120,6 +124,10 @@ class gerenciador_de_processos(object):
                     soma += (entra[0] - sai[0])
                     entra.pop(0)
                     sai.pop(0)
-            return soma / (len(self.processos) + len(self.lista_de_sistema))
-
+            return soma
+        return -1
+    def TME(self):
+        Tempo_total = self.TTE()
+        if Tempo_total+1 :
+            return Tempo_total / (len(self.processos) + len(self.lista_de_sistema))
         return -1

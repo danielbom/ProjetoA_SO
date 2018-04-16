@@ -40,6 +40,8 @@ def exe_escalonamento(gp, alg):
     print(gp.ids_exe)
     print()
     print(gp)
+    print("Tamanho máximo da fila de processos: " + str(gp.tam_max_list_esp))
+    print("Tempo Total de Espera(TTE): " + str(gp.TTE()))
     print("Tempo Médio de Espera(TME): " + str(gp.TME()) + "\n")
 
 if __name__ == '__main__':
@@ -56,5 +58,4 @@ if __name__ == '__main__':
         exe_escalonamento(gp, a)
         print()
     
-    #exe_escalonamento(gp, "RR")
     
