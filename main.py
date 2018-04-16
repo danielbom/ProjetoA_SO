@@ -38,12 +38,23 @@ def exe_escalonamento(gp, alg):
     print("Escalonamento " + alg)
     gp.escalonar(alg)
     print(gp.ids_exe)
+    print()
+    print(gp)
     print("Tempo Médio de Espera(TME): " + str(gp.TME()) + "\n")
 
 if __name__ == '__main__':
     processos = get_process("processos.txt")
-    gp = gdp.gerenciador_de_processos(processos)
+    q   = 5
+    tse = 1
+    gp = gdp.gerenciador_de_processos(processos,quantum=q, temp_sys_exe=tse)
+    print("Gerenciador de processos")
+    print("Quantum p/ o algoritmo RR: " + str(q))
+    print("Tempo de execução da I/O do sistema: " + str(tse) + "\n")
     algoritmos = ("FIFO", "SFJ", "PRIO", "RR")
+    
     for a in algoritmos:
         exe_escalonamento(gp, a)
+        print()
+    
+    #exe_escalonamento(gp, "RR")
     
