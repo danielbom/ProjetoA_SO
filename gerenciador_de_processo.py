@@ -20,38 +20,41 @@ class gerenciador_de_processos(object):
             string += str(i) + "\n"
         return string
 
-    # sort = "FIFO" || "SJF" || "PRIO" || "RR"
+    # sort = "FIFO" || "SJF" || "PRIO" || "RR" || "FIFO-P"
     def escalonar(self, sort="FIFO"):
         process               = [processo.processo(i[0],i[1],i[2],i[3],i[4]) for i in self.lista_de_processos]
         lim_sistema           = len(process)
-        sistema               = None
         sys_cheg              = []
         finalizados           = []
         lista_de_espera       = []
         lista_ids_exe         = []
+        self.lista_de_sistema = []
+        sistema               = None
         exe                   = None
         time                  = 0
         count_quantum         = 0
         self.tam_max_list_esp = 0
-        self.lista_de_sistema = []
-        
+
         while True:
             # Busca processos que chegam no sistema
             for i in process:
                 if i.cheg == time:
-                    lista_de_espera.append(i)
+                    if sort == "FIFO" or sort == "FIFO-P":
+                        lista_de_espera.append(i)
+                    else:
+                        lista_de_espera.insert(0, i)
             if len(lista_de_espera) > self.tam_max_list_esp:
                 self.tam_max_list_esp = len(lista_de_espera)
             if sort == "SJF" :
                 lista_de_espera.sort(key=operator.attrgetter("rest"))
             elif sort == "PRIO":
                 lista_de_espera.sort(key=operator.attrgetter("prio"))
-            
+
             # Para a lista de espera ordenada de acordo com o algoritmo
             # de escalonamento de execução, selecione o primeiro da lista
             # para executar
             if len(lista_de_espera) and exe == None:
-                if sort == "FIFO":
+                if sort == "FIFO-P":
                     lista_de_espera.sort(key=operator.attrgetter("rest"))
                 exe = lista_de_espera[0]
                 exe.Entra.append(time)
@@ -62,7 +65,7 @@ class gerenciador_de_processos(object):
                     exe.Entra.append(time)
 
             # Executa o processo
-            lista_ids_exe.append(exe.id)
+            lista_ids_exe.append( exe.id )
             exe.exe()
             time          += 1
             count_quantum += 1
@@ -72,9 +75,7 @@ class gerenciador_de_processos(object):
                 sistema.cheg = time
                 sistema.pc   = 0
                 self.lista_de_sistema.append(sistema)
-
                 lista_de_espera.insert(0, sistema)
-
                 sys_cheg.append(time)
                 # Simula entrada/saida
                 lim_sistema   += 1
@@ -88,43 +89,23 @@ class gerenciador_de_processos(object):
                 lista_de_espera.pop(0)
                 exe           = None
                 count_quantum = 0
-            
+
             if sort == "RR" and count_quantum == self.quantum:
                 exe.Sai.append(time)
                 lista_de_espera.pop(0)
                 lista_de_espera.append(exe)
                 exe           = None
                 count_quantum = 0
-            
+
             if not (len(process) or len(lista_de_espera)):
                 break
 
         self.processos = sorted(finalizados, key=operator.attrgetter("id"))
-        self.processos.append(sistema)
         self.ids_exe = lista_ids_exe
 
     def TTE(self):
         if len(self.ids_exe):
-            soma = 0
-            for p in self.processos:
-                entra = p.Entra[:]
-                sai   = p.Sai[:]
-                soma += (entra[0] - p.cheg)
-                entra.pop(0)
-                while len(entra):
-                    soma += (entra[0] - sai[0])
-                    entra.pop(0)
-                    sai.pop(0)
-            for p in self.lista_de_sistema:
-                entra = p.Entra[:]
-                sai   = p.Sai[:]
-                soma += (entra[0] - p.cheg)
-                entra.pop(0)
-                while len(entra):
-                    soma += (entra[0] - sai[0])
-                    entra.pop(0)
-                    sai.pop(0)
-            return soma
+            return sum( [p.tempo_de_espera() for p in self.processos] ) + sum( [p.tempo_de_espera() for p in self.lista_de_sistema] )
         return -1
     def TME(self):
         Tempo_total = self.TTE()
