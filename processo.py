@@ -1,11 +1,12 @@
 class processo(object):
-    def __init__(self, id, temp, prio, cheg, evio, pc=0, tipo="Normal"):
+    def __init__(self, id, temp, prio, cheg, evio, pc=1, tipo="Normal"):
         self.id    = id
         self.temp  = temp
         self.prio  = prio
         self.cheg  = cheg
         self.evio  = evio
-        self.pc    = 0
+
+        self.pc    = pc
         self.Entra = []
         self.Sai   = []
         self.rest  = temp
@@ -33,4 +34,4 @@ class processo(object):
         return self.pc in self.evio
 
     def check_exe(self):
-        return self.pc >= self.temp
+        return self.rest == 0

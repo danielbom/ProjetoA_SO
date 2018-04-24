@@ -39,12 +39,15 @@ class gerenciador_de_processos(object):
             # Busca processos que chegam no sistema
             for i in process:
                 if i.cheg == time:
-                    if sort == "FIFO" or sort == "FIFO-P":
+                    if sort == "FIFO":
                         lista_de_espera.append(i)
                     else:
                         lista_de_espera.insert(0, i)
+            # Salvando o tamanho máximo da lista de espera
             if len(lista_de_espera) > self.tam_max_list_esp:
                 self.tam_max_list_esp = len(lista_de_espera)
+
+            # Fazendo as ordenações para cada algoritmo
             if sort == "SJF" :
                 lista_de_espera.sort(key=operator.attrgetter("rest"))
             elif sort == "PRIO":
@@ -53,16 +56,22 @@ class gerenciador_de_processos(object):
             # Para a lista de espera ordenada de acordo com o algoritmo
             # de escalonamento de execução, selecione o primeiro da lista
             # para executar
-            if len(lista_de_espera) and exe == None:
-                if sort == "FIFO-P":
-                    lista_de_espera.sort(key=operator.attrgetter("rest"))
-                exe = lista_de_espera[0]
-                exe.Entra.append(time)
-            elif len(lista_de_espera) and exe != None:
-                if lista_de_espera[0] != exe:
+            if len(lista_de_espera):
+                # Se exe == None e existem item na lista de espera, exe terminou
+                # de ser executado
+                if exe == None:
+                    if sort == "FIFO":
+                        lista_de_espera.sort(key=operator.attrgetter("rest"))
+                    exe = lista_de_espera[0]
+                    exe.Entra.append(time)
+                # Se exe != None, porém o primeiro elemento da lista de espera
+                # não é igual a exe, é pq entrou alguém com maior prioridade
+                # para ser executado
+                elif lista_de_espera[0] != exe:
                     exe.Sai.append(time)
                     exe = lista_de_espera[0]
                     exe.Entra.append(time)
+                    
 
             # Executa o processo
             lista_ids_exe.append( exe.id )
@@ -70,17 +79,19 @@ class gerenciador_de_processos(object):
             time          += 1
             count_quantum += 1
 
+            # Verifica se existe entrada e saída
             if exe.check_io():
-                sistema      = processo.processo(lim_sistema, self.temp_sys_exe, 0, 0, [], tipo="Sistema")
-                sistema.cheg = time
-                sistema.pc   = 0
+                # Cria-se um processo para a IO
+                sistema = processo.processo(id=lim_sistema, temp=self.temp_sys_exe, prio=0, cheg=time, evio=[], tipo="Sistema")
+                # Armazena esse processo numa lista para analizes posteriores
                 self.lista_de_sistema.append(sistema)
+                # Adiciona no início da lista de espera para ser executado em seguida
                 lista_de_espera.insert(0, sistema)
                 sys_cheg.append(time)
-                # Simula entrada/saida
                 lim_sistema   += 1
                 count_quantum = 0
 
+            # Verifica se o processo terminou
             if exe.check_exe():
                 exe.Sai.append(time)
                 if exe not in self.lista_de_sistema:
@@ -89,6 +100,7 @@ class gerenciador_de_processos(object):
                 lista_de_espera.pop(0)
                 exe           = None
                 count_quantum = 0
+
 
             if sort == "RR" and count_quantum == self.quantum:
                 exe.Sai.append(time)

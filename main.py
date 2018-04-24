@@ -81,13 +81,16 @@ def exe_escalonamento(gp, alg, pids=True, pte=True, pproc=False):
     if pids:
         print("Timeline de execução\n")
         print_ids(gp)
+        print()
     if pte:
-        print("\nTempo de espera de cada processo\n")
+        print("Tempo de espera de cada processo\n")
         print_tempo_de_espera(gp)
+        print()
     if pproc:
         print(gp)
         print()
-    print("Quantidade de processos: " + str( len(gp.processos)+len(gp.lista_de_sistema) ))
+    print("Quantidade de processos normais: " + str( len(gp.processos) ))
+    print("Quantidade de processos do sistema: " + str(len(gp.lista_de_sistema)))
     print("Tamanho máximo da fila de processos: " + str(gp.tam_max_list_esp))
     print("Tempo Total de Espera(TTE): " + str(gp.TTE()))
     print("Tempo Médio de Espera(TME): " + str(gp.TME()) + "\n")
@@ -104,18 +107,16 @@ if __name__ == '__main__':
     print("Gerenciador de processos")
     print("Quantum p/ o algoritmo RR: " + str(q))
     print("Tempo de execução da I/O de sistema: " + str(tse) + "\n")
-    algoritmos = ("FIFO", "FIFO-P", "SJF", "PRIO", "RR")
+    algoritmos = ("FIFO", "SJF", "PRIO", "RR")
 
     algo = 6
     if algo==1:
         exe_escalonamento(gp, "FIFO", False, False)
     elif algo==2:
-        exe_escalonamento(gp, "FIFO-P", False, False)
-    elif algo==3:
         exe_escalonamento(gp, "SJF", False, False)
-    elif algo==4:
+    elif algo==3:
         exe_escalonamento(gp, "PRIO", False, False)
-    elif algo==5:
+    elif algo==4:
         exe_escalonamento(gp, "RR", False, False)
     else:
         for a in algoritmos:
