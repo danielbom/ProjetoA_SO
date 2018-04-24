@@ -104,7 +104,7 @@ if __name__ == '__main__':
     print("Gerenciador de processos")
     print("Quantum p/ o algoritmo RR: " + str(q))
     print("Tempo de execução da I/O de sistema: " + str(tse) + "\n")
-    algoritmos = ("FIFO", "FIFO-P", "SFJ", "PRIO", "RR")
+    algoritmos = ("FIFO", "FIFO-P", "SJF", "PRIO", "RR")
 
     algo = 6
     if algo==1:
