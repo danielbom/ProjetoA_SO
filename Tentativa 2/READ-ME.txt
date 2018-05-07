@@ -1,0 +1,33 @@
+Para executar este programa, utilize python 3.x com o seguinte comando:
+
+python main.py 'algoritmo' 'quantum' 'duracao_io' 'printTimeline1' 'printTimeline2'
+
+ou
+
+python3 main.py 'algoritmo' 'quantum' 'duracao_io' 'printTimeline1' 'printTimeline2'
+
+Os campos entre aspas simples podem receber os seguintes valores:
+'algoritmo'     : FIFO ou SJF ou PRIO ou RR ou ALL
+'quantum'       : qualquer valor entre [2, 100]
+'duracao_io'    : qualquer valor entre [1, 100]
+'printTimeline1': True ou False
+'printTimeline2': True ou False
+
+
+Se a chamada for: python main.py
+Por padrao, as variáveis teram os seguintes valores.
+'algoritmo'      : ALL
+'quantum'        : 5
+'duracao_io'     : 1
+'printTimeline1' : False
+'printTimeline2' : False
+
+*Para 'algoritmo' com valor ALL, será executado todos os algoritmos.
+
+*A variável printTimeline1, se verdadeira, imprime um diagrama em forma de tabela, representando os processos que foram executados em determinado momento.
+
+*A variável printTimeline2, se verdadeira, imprime as listas de processos em cada unidade de tempo, mostrando quem estava executando, quem estava bloquiado, quem já terminou, além do sistema.
+
+OBS: Para muitos processos( quantidade maior que 5 ) é aconselhavel mater a variável printTimeline2 com o valor False!
+
+* : paragrafos acompanhados por este símbulo explicam uma variável da chamada de execução
