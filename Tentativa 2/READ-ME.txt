@@ -22,6 +22,9 @@ Por padrao, as variáveis teram os seguintes valores.
 'printTimeline1' : False
 'printTimeline2' : False
 
+O arquivo lido sempre será o processos.txt, portanto deve-se alterar-lo para executar uma entrada diferente.
+Cada processo é representado por uma linha. As linhas só podem possuir números. Os quatro primeiros números representam, respectivamente, id, duracão, prioridade e chegada. Qualquer número a mais fará parte da lista de entrada e saída que pode acontecer durante o processo. Os processos são iniciados ignorando os ios fora do seu tempo de execução, logo os valores de entrada e saida devem estar no intervalo [0, duração). Quaisquer valores fora deste intervalo serão ignorados.
+
 *Para 'algoritmo' com valor ALL, será executado todos os algoritmos.
 
 *A variável printTimeline1, se verdadeira, imprime um diagrama em forma de tabela, representando os processos que foram executados em determinado momento.
