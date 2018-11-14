@@ -88,8 +88,8 @@ class ManagerProcess(object):
         plt.plot(x, y, 'ro--', linewidth=2, markersize=12)
 
         plt.title('Duration of process running in CPU core.' + title_plus)
-        plt.xlabel('Time (clock cicle)')
-        plt.ylabel('Process (id)')
+        plt.ylabel('Time (clock cicle)')
+        plt.xlabel('Process (id)')
         plt.show()
 
     def run(self):

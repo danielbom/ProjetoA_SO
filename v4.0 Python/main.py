@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # manager_process.set_scheduler(sjf)
     # manager_process.set_scheduler(priority)
     
-    manager_process.run(" : FIFO")
+    manager_process.run()
     # for scheduler in list_schedulers:
     # for scheduler in schedule_round_robin:
     for scheduler in []:
