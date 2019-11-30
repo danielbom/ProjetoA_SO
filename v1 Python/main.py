@@ -27,7 +27,7 @@ import math
 def get_process(file_name):
     processos = []
     for i in open(file_name, 'r').read().splitlines():
-        aux = i.split(" ")
+        aux = i.split()
         pross = [int(aux[0]), int(aux[1]), int(aux[2]), int(aux[3]), []]
 
         if len(aux) > 4 :
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         processos = get_process(sys.argv[1])
     else:
-        processos = get_process("processos")
+        processos = get_process("../resources/processos.txt")
     q   = 4
     tse = 1
     gp = gdp.gerenciador_de_processos(processos,quantum=q, temp_sys_exe=tse)

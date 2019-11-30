@@ -16,8 +16,8 @@ if __name__ == '__main__':
         {"name": "FIFO", "alg": SchedulerFifo, "quantum":0},
         {"name": "SJF", "alg": SchedulerSJF, "quantum":0},
         {"name": "Priority", "alg": SchedulerPriority, "quantum":0},
-        ]
-    list_process = get_process("processos.txt")
+    ]
+    list_process = get_process("../resources/processos.txt")
 
 
     manager_process = ManagerProcess()

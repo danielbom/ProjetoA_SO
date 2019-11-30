@@ -46,7 +46,7 @@ def print_ids(ids_exe):
 def get_process(file_name):
     processos = []
     for i in open(file_name, 'r').read().splitlines():
-        aux = i.split(" ")
+        aux = i.split()
         pross = [int(aux[0]), int(aux[1]), int(aux[2]), int(aux[3]), []]
        
         if len(aux) > 4 :
@@ -56,7 +56,7 @@ def get_process(file_name):
     return processos
 
 if __name__ == '__main__':
-    processos = get_process("processos.txt")
+    processos = get_process("../resources/processos.txt")
     algoritmos = ("FIFO", "SJF", "PRIO", "RR", "ALL")
     algoritmo = "ALL"
     quantum = 5

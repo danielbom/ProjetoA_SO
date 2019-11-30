@@ -23,9 +23,9 @@ if __name__ == '__main__':
         {"name": "SJF", "alg": sjf, "quantum":0},
         {"name": "Priority", "alg": priority, "quantum":0},
         {"name": "Round Robin", "alg": round_robin, "quantum":2}
-        ]
+    ]
     schedule_round_robin = [{"name": "Round Robin", "alg": round_robin, "quantum":2}]
-    list_process = get_process("processos.txt")
+    list_process = get_process("../resources/processos.txt")
 
 
     manager_process = ManagerProcess()
